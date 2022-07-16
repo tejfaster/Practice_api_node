@@ -1,10 +1,12 @@
-const router = require("express").Router()
-// const Invalid = require("../exceptions/invalid")
 const User = require("../models/User")
-const { enpass } = require('../utls/en_de_cryptpassword')
+const { enpass, depass } = require('../utls/en_de_cryptpassword')
+const { InvalidUser } = require('../exceptions/invalid')
+const { refreshToken } = require('../utls/token')
+
+
 
 //Register API URL 8080/api/auth/signup
-const signunp = async (req, res) => {
+module.exports.signUp = async (req, res) => {
     let user = new User(req.body)
     user.password = enpass(user.password)
     try {
@@ -16,7 +18,21 @@ const signunp = async (req, res) => {
     }
 }
 
-module.exports = {
-    signunp
+module.exports.signIn = async (req, res) => {
+    try {
+        const user = await User.findOne({ email: req.body.email })
+        const hashedPassword = depass(user.password)
+
+        if (hashedPassword !== req.body.password) {
+            throw new InvalidUser()
+        } else {
+            const token = refreshToken(user.id, user.usertype, user.name)
+            const { password, ...others } = user._doc
+            res.status(200).json({ others, token })
+        }
+    } catch (err) {
+        return res.status(422).send({ message: err.message })
+    }
+
 }
 

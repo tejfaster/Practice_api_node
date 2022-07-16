@@ -35,6 +35,18 @@ const signUpValidation = () => {
     ]
 }
 
+const signInValidation = () => {
+    return[
+        body('email',USER.EMAIL.MESSAGE)
+        .isEmail(),
+        body('password', USER.PASSWORD.MESSAGE)
+        .isLength({
+            min:USER.PASSWORD.LENGTH,
+        })
+    ]
+}
+
 module.exports = {
-    signUpValidation
+    signUpValidation,
+    signInValidation
 }

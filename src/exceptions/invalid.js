@@ -5,14 +5,14 @@ class InvalidOtp extends Error {
     }
 }
 
-class InvalidToken extends error {
+class InvalidToken extends Error {
     constructor( message = "Invalid Token"){
         super(message)
         this.name = "Invalid Token"
     }
 }
 
-class InvalidUser extends error {
+class InvalidUser extends Error {
     constructor( message = "Invalid User"){
         super(message)
         this.name = "Invalid User"

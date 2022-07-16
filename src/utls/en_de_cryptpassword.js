@@ -5,7 +5,7 @@ const enpass = (password) => {
 }
 
 const depass = (password) => {
-    return CryptoJS.AES.decrypt(password,process.env.PASS_SECRET_KEY).toString(CryptoJS.enc.Utf8)
+    return CryptoJS.AES.decrypt(password, process.env.PASS_SECRET_KEY).toString(CryptoJS.enc.Utf8)
 }
 
 module.exports = {
