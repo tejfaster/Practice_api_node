@@ -6,7 +6,7 @@ const { refreshToken } = require('../utls/token')
 
 
 //Register API URL 8080/api/auth/signup
-module.exports.signUp = async (req, res) => {
+const signUp = async (req, res) => {
     let user = new User(req.body)
     user.password = enpass(user.password)
     try {
@@ -18,17 +18,19 @@ module.exports.signUp = async (req, res) => {
     }
 }
 
-module.exports.signIn = async (req, res) => {
+//Login API URL 8080/api/auth/signin
+const signIn = async (req, res) => {
     try {
         const user = await User.findOne({ email: req.body.email })
         const hashedPassword = depass(user.password)
-
-        if (hashedPassword !== req.body.password) {
+        if (!user) {
+            res.status(422).json("Invalid email")
+        } else if (hashedPassword !== req.body.password) {
             throw new InvalidUser()
         } else {
             const token = refreshToken(user.id, user.usertype, user.name)
-            const { password, ...others } = user._doc
-            res.status(200).json({ others, token })
+            const { password, ...users } = user._doc
+            res.status(200).json({ users, token })
         }
     } catch (err) {
         return res.status(422).send({ message: err.message })
@@ -36,3 +38,7 @@ module.exports.signIn = async (req, res) => {
 
 }
 
+module.exports = {
+    signUp,
+    signIn
+}

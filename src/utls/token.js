@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 
-module.exports.refreshToken = (data, data1, data2) => {
+const refreshToken = (data, data1, data2) => {
     return jwt.sign(
         {
             id: data,
@@ -14,7 +14,7 @@ module.exports.refreshToken = (data, data1, data2) => {
     )
 }
 
-module.exports.verifyToken = (req,res,next) => {
+const verifyToken = (req,res,next) => {
     const authHeader = req.headers.token
     if (authHeader){
         const token = authHeader.split(" ")[1]
@@ -26,4 +26,20 @@ module.exports.verifyToken = (req,res,next) => {
     }else{
         return res.status(401).json("you are not authenticated!")
     }
+}
+
+ const verifyTokenAndSeller = (req,res,next) => {
+    verifyToken(req,res,()=>{
+        if(req.user.usertype === "SELLER"){
+            next()
+        }else{
+            res.status(403).json('you are not allowed to do this!')
+        }
+    })
+}
+
+module.exports = {
+    refreshToken,
+    verifyToken,
+    verifyTokenAndSeller
 }

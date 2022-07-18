@@ -1,9 +1,15 @@
 const mongoose = require("mongoose")
+const {ENUM_PRODUCT} = require('../constant/product')
 
 const ProductSchema = new mongoose.Schema({
+    userid:{
+        type:String,
+        required :true
+    },
     productype:{
         type:String,
-        required: true
+        enum:ENUM_PRODUCT,
+        default:ENUM_PRODUCT[0]
     },
     name:{
         type:String,
@@ -18,7 +24,7 @@ const ProductSchema = new mongoose.Schema({
         required:true
     },
     price:{
-        type:Number,
+        type:String,
         required:true
     }
 },

@@ -2,6 +2,9 @@ const NAME_LENGTH = 5
 const PASSWORD_LENGTH = 6
 const PHONE_MIN_LENGTH = 10
 const PHONE_MAX_LENGTH = 13
+const PRICE_LENGTH = 1
+const SIZE_LENGTH = 1
+
 const USER = {
     NAME: {
         MESSAGE : `name should be at least ${NAME_LENGTH} char`,
@@ -21,6 +24,21 @@ const USER = {
     },
 }
 
+const PRODUCT = {
+   NAME:{
+    MESSAGE:`Please enter name of your product`,
+    LENGTH: NAME_LENGTH
+   },
+   PRICE:{
+    MESSAGE:`Please enter price of product`,
+    LENGTH: PRICE_LENGTH
+   },
+   SIZE:{
+    MESSAGE: `Please enter size of your item`
+   }
+
+}
 module.exports = {
-    USER
+    USER,
+    PRODUCT
 }
