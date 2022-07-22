@@ -5,14 +5,16 @@ const { createProduct,
     getAllProduct,
     getProductById,
     updateProductById,
-    deleteProductById
+    deleteProductById,
+    getProduct
 } = require("../controller/product")
 
 
-router.post('/create', productValidation(), validate, (req, res) => createProduct)
-router.get('/all', (req, res) => getAllProduct)
-router.get('/:id', (req, res) => getProductById)
-router.put('/:id', (req, res) => updateProductById)
-router.delete('/:id', (req, res) => deleteProductById)
+router.post('/create', productValidation(), validate,createProduct)
+router.get('/all',getAllProduct)
+router.get('/:id',getProductById)
+router.put('/:id',updateProductById)
+router.delete('/:id',deleteProductById)
+router.get('/', getProduct)
 
 module.exports = router

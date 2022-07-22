@@ -5,7 +5,7 @@ const product = require('./product')
 
 const routes = app => {
     app.use("/api/auth", auth)
-    app.use("/api/order",verifyTokenAndSeller, product)
+    app.use("/api/product",verifyTokenAndSeller, product)
 
 }
 
