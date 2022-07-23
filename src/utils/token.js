@@ -15,9 +15,10 @@ const refreshToken = (data, data1, data2) => {
 }
 
 const verifyToken = (req,res,next) => {
-    const authHeader = req.headers.token
-    if (authHeader){
-        const token = authHeader.split(" ")[1]
+    const authHeader = req.headers.token 
+    const cookies = req.cookies.token;
+    if (authHeader || cookies){
+        const token = authHeader.split(" ")[1] || cookies
         jwt.verify(token,process.env.JWT_SECRET_KEY,(err,user) => {
             if (err) res.status(403).json("Token isn't valid!")
             req.user = user

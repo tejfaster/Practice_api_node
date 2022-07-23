@@ -1,8 +1,9 @@
 const User = require("../models/User")
-const { enpass, depass } = require('../utls/en_de_cryptpassword')
+const { enpass, depass } = require('../utils/en_de_cryptpassword')
 const { InvalidUser } = require('../exceptions/invalid')
-const { refreshToken } = require('../utls/token')
-
+const { refreshToken } = require('../utils/token')
+const cookie = require('cookie')
+const { options } = require('../utils/cookies')
 
 
 //Register API URL 8080/api/auth/signup
@@ -30,7 +31,11 @@ const signIn = async (req, res) => {
         } else {
             const token = refreshToken(user.id, user.usertype, user.name)
             const { password, ...users } = user._doc
-            res.status(200).json({ users, token })
+            res.status(200).cookie('token', token, options).json({
+                success: true,
+                users,
+                token
+            })
         }
     } catch (err) {
         return res.status(422).send({ message: err.message })
